@@ -10,7 +10,9 @@ import com.joel.comics.model.marvelmodel.marvdata.marvresponse.character.Result
 import com.joel.comics.model.network.MarvelRepository
 import com.joel.comics.model.network.Resource
 import com.joel.comics.utils.Constants.Companion.PAGE_SIZE
+import com.joel.comics.utils.getImageLink
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,39 +29,64 @@ class MarvelHomeViewModel @Inject constructor(
     var isLoading = mutableStateOf(false)
     var endReached = mutableStateOf(false)
 
+    var loadedMarvelList = listOf<MarvelListEntry>()
+    var isStartSearching = false
+    var isSearching = mutableStateOf(false)
+
      init {
          loadMarvelCharacters()
      }
 
+    fun searchCharacter(query : String){
+        val listToSearch = if (isSearching.value){
+            marvelList.value
+        }
+        else{
+            loadedMarvelList
+        }
+
+        viewModelScope.launch(Dispatchers.Default) {
+            if (query.isEmpty()){
+                marvelList.value = loadedMarvelList
+                isSearching.value = false
+                isStartSearching = false
+                return@launch
+            }
+
+            val results = listToSearch.filter {
+                it.characterName.contains(query.trim(), ignoreCase = true) || it.number.toString()  == query.trim()
+            }
+
+            if (isStartSearching){
+                loadedMarvelList = marvelList.value
+                isStartSearching = false
+            }
+            marvelList.value = results
+            isSearching.value = true
+        }
+    }
+
 
     fun loadMarvelCharacters(){
+        Log.d("ViewModel", "Load Characters")
         viewModelScope.launch {
             isLoading.value = true
 
             val result = repository.getMarvelHeroes(
                 limit = PAGE_SIZE,
-                offset = (currentPage * PAGE_SIZE),
+                offset = currentPage * PAGE_SIZE,
             )
 
             when(result){
                 is Resource.Success -> {
-
                     endReached.value = (PAGE_SIZE * currentPage) >= result.data!!.data.total
                    val marvelEntries = result.data.data.results.mapIndexed { index, marvel ->
-                       val url = "http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                       val startIndex = 44
-                       val endIndex = 57
-                       println(url[startIndex])
-                       println(url[endIndex])
-                       val value = url.subSequence(startIndex,endIndex)
-                       val imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/e0/${value}.jpg"
 
                        MarvelListEntry(
                            characterName = marvel.name,
-                           imageUrl = imageUrl,
+                           imageUrl = getImageLink(marvel.thumbnail),
                            number = marvel.id
                        )
-
                    }
 
                     currentPage++
