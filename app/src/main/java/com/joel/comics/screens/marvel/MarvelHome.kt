@@ -6,10 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,19 +19,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
 import com.joel.comics.R
 import com.joel.comics.components.Action
 import com.joel.comics.components.SearchBar
+import com.joel.comics.model.marvelmodel.MarvelListEntry
+import com.joel.comics.viewmodel.MarvelHomeViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import me.onebone.toolbar.rememberCollapsingToolbarState
 
 
 @Destination
 @Composable
-fun MarvelHome(){
+fun MarvelHome(
+    marvelHomeViewModel: MarvelHomeViewModel = hiltViewModel(),
+){
+
+
+    LaunchedEffect(key1 = true){
+        marvelHomeViewModel.loadMarvelCharacters()
+    }
+
 
     val state = rememberCollapsingToolbarScaffoldState()
     val textSize = (18 + ( 30-12 ) * state.toolbarState.progress).sp
@@ -71,26 +85,61 @@ fun MarvelHome(){
             )
         })
     {
-        LazyColumn(
-            contentPadding = PaddingValues(5.dp),
-            modifier = Modifier.fillMaxSize()
-        ){
-            item {
-                Box(modifier = Modifier
-                    .fillMaxWidth()){
-                    SearchBar("Search for a character"){
+        CharacterList()
+    }
+}
 
-                    }
+@Composable
+fun CharacterList(
+    marvelHomeViewModel: MarvelHomeViewModel = hiltViewModel(),
+
+){
+
+    val isLoading =  marvelHomeViewModel.isLoading
+    val loadError =  marvelHomeViewModel.loadedError
+
+    val characters = marvelHomeViewModel.marvelList
+
+    LazyColumn(
+        contentPadding = PaddingValues(5.dp),
+        modifier = Modifier.fillMaxSize()
+    ){
+        item {
+            Box(modifier = Modifier
+                .fillMaxWidth()){
+                SearchBar("Search for a character"){
+
                 }
             }
-            items(100){
-                Card(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp)
+        }
+
+        items(characters.value){ character ->
+            Card(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp)
+            ) {
+                Column(
+                    modifier = Modifier,
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    SubcomposeAsyncImage(
+                        model = character.imageUrl,
+                        contentDescription = character.characterName,
+                        modifier = Modifier.size(200.dp)
+                    )
+                    {
+                        val state = painter.state
+                        if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error){
+                            CircularProgressIndicator()
+                        }
+                        else{
+                            SubcomposeAsyncImageContent()
+                        }
+                    }
                     Text(
-                        text = "Home to Avengers and many more superheroes $it",
+                        text = character.characterName,
                         modifier = Modifier
                             .padding(12.dp)
                     )
@@ -98,4 +147,20 @@ fun MarvelHome(){
             }
         }
     }
+
+
+    Box(
+        contentAlignment = Alignment.Center
+    ) {
+//        if (isLoading){
+//            CircularProgressIndicator()
+//        }
+//        else{
+//            RetrySection(error = loadError){
+//                marvelHomeViewModel.loadMarvelCharacters()
+//            }
+//        }
+    }
 }
+
+

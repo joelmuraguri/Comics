@@ -1,8 +1,16 @@
 package com.joel.comics.utils
 
+import com.joel.comics.model.marvelmodel.marvdata.marvresponse.character.Thumbnail
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.sql.Timestamp
+
+
+fun getImageLink(thumbnail: Thumbnail):String{
+    return thumbnail.path+ "." +thumbnail.extension
+}
+
+
 
 class Constants {
 
@@ -13,8 +21,8 @@ class Constants {
         const val MARVEL_API_KEY = "03b242b3d560dfcf16005cb557604912"
         private const val MARVEL_PRIVATE_KEY = "901daf251dcc851cc3e783894948eb69a0efedc3"
 
-        const val MARVEL_BASE_URL = "https://gateway.marvel.com/v1/public"
-        const val CHARACTER_ENDPOINT = "/characters"
+        const val MARVEL_BASE_URL = "https://gateway.marvel.com/v1/public/"
+        const val CHARACTER_ENDPOINT = "characters"
 
         const val PAGE_SIZE = 20
 

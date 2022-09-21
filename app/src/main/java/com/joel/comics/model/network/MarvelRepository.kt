@@ -1,5 +1,6 @@
 package com.joel.comics.model.network
 
+import android.util.Log
 import com.joel.comics.model.marvelmodel.marvdata.marvresponse.character.Character
 import dagger.hilt.android.scopes.ActivityScoped
 import retrofit2.HttpException
@@ -21,6 +22,7 @@ class MarvelRepository @Inject constructor(
           )
       }
       catch (e : HttpException){
+          Log.d("TESTER::", e.code().toString());
           if (e.code() == 409){
               return Resource.Error(message = "Missing Parameters : Check your Timestamp, Api key and hash")
           }

@@ -54,7 +54,7 @@ fun OnBoardingScreen(
                 elevation = 5.dp,
                 modifier = Modifier
                     .clickable {
-                               navigator.navigate(MarvelHomeDestination)
+                               navigator.navigate(MarvelHomeDestination())
                     },
                 shape = RoundedCornerShape(20.dp)
             ) {
