@@ -24,7 +24,7 @@ class Constants {
         const val MARVEL_BASE_URL = "https://gateway.marvel.com/v1/public/"
         const val CHARACTER_ENDPOINT = "characters"
 
-        const val PAGE_SIZE = 20
+        const val PAGE_SIZE = 50
 
         val ts = Timestamp(System.currentTimeMillis()).time.toString()
 

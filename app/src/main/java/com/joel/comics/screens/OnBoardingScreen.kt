@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.joel.comics.R
-import com.joel.comics.screens.destinations.DCHomeDestination
 import com.joel.comics.screens.destinations.MarvelHomeDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -28,26 +27,7 @@ fun OnBoardingScreen(
             .fillMaxSize()
     ) {
 
-        Row(
-            modifier = Modifier
-            .padding(20.dp)
-        ) {
 
-            Card(
-                elevation = 5.dp,
-                modifier = Modifier
-                    .clickable {
-                               navigator.navigate(DCHomeDestination)
-                    },
-                shape = RoundedCornerShape(20.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.dc),
-                    contentDescription = "dc image",
-                    modifier = Modifier
-                        .size(120.dp)
-                )
-            }
             Spacer(modifier = Modifier.width(20.dp))
 
             Card(
@@ -66,7 +46,7 @@ fun OnBoardingScreen(
                         .fillMaxWidth()
                 )
             }
-        }
+
     }
 }
 

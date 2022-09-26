@@ -1,20 +1,13 @@
 package com.joel.comics.screens.marvel
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -25,19 +18,20 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImagePainter
-import coil.compose.SubcomposeAsyncImage
-import coil.compose.SubcomposeAsyncImageContent
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.joel.comics.R
 import com.joel.comics.components.Action
+import com.joel.comics.components.CharacterItem
 import com.joel.comics.components.SearchBar
+import com.joel.comics.model.paginate.ErrorAction
+import com.joel.comics.model.paginate.ItemLoading
 import com.joel.comics.viewmodel.MarvelHomeViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import androidx.compose.runtime.*
-import com.joel.comics.components.RetrySection
 
 
 @Destination
@@ -45,11 +39,6 @@ import com.joel.comics.components.RetrySection
 fun MarvelHome(
     viewModel: MarvelHomeViewModel = hiltViewModel(),
 ){
-
-
-    LaunchedEffect(key1 = true){
-        viewModel.loadMarvelCharacters()
-    }
 
 
     val state = rememberCollapsingToolbarScaffoldState()
@@ -105,75 +94,82 @@ fun MarvelHome(
 
             ) {
                 SearchBar() {
-                    viewModel.searchCharacter(it)
+
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
-            CharacterList()
+            CharacterList(viewModel)
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CharacterList(
-    viewModel: MarvelHomeViewModel = hiltViewModel(),
+    viewModel: MarvelHomeViewModel,
     ) {
 
-    val marvelList by remember { viewModel.marvelList }
-    val isLoading by remember { viewModel.isLoading }
-    val endReached by remember { viewModel.endReached }
-    val loadError by remember { viewModel.loadedError }
-    val isSearching by remember { viewModel.isSearching }
+    val characterList = viewModel.characters.collectAsLazyPagingItems()
 
-
-    val characters = viewModel.marvelList
-
-    LazyVerticalGrid(
-        cells = GridCells.Fixed(2), contentPadding = PaddingValues(
+    LazyColumn(
+        modifier = Modifier
+            .padding(12.dp),
+        contentPadding = PaddingValues(
             start = 12.dp,
-            top = 16.dp,
             end = 12.dp,
+            top = 16.dp,
             bottom = 16.dp
-        ),
-        content = {
-
-            items(characters.value) { character ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp)
-                ) {
-                    Column(
-                        modifier = Modifier,
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        SubcomposeAsyncImage(
-                            model = character.imageUrl,
-                            contentDescription = character.characterName,
-                        )
-                        {
-                            val state = painter.state
-                            if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier
-                                        .scale(0.5f)
-                                )
-                            } else {
-                                SubcomposeAsyncImageContent()
-                            }
+        )
+    ){
+        items(characterList){ character ->
+            character?.let {
+                CharacterItem(character = character)
+            }
+        }
+        characterList.apply {
+            when {
+                loadState.refresh is LoadState.Loading -> {
+                    item {
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .fillParentMaxSize()
+                                    .scale(0.5f)
+                            )
                         }
-                        Text(
-                            text = character.characterName,
-                            modifier = Modifier
-                                .padding(12.dp)
+                    }
+                }
+                loadState.append is LoadState.Loading -> {
+                    item {
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ) {
+                            ItemLoading()
+                        }
+                    }
+                }
+                loadState.refresh is LoadState.Error -> {
+                    val e = characterList.loadState.refresh as LoadState.Error
+                    item {
+                        ErrorAction(
+                            error = e.error.localizedMessage!!,
+                            modifier = Modifier.fillParentMaxSize(),
+                            onRetry = { retry() }
+                        )
+                    }
+                }
+                loadState.append is LoadState.Error -> {
+                    val e = characterList.loadState.append as LoadState.Error
+                    item {
+                        ErrorAction(
+                            error = e.error.localizedMessage!!,
+                            onRetry = { retry() }
                         )
                     }
                 }
             }
         }
-    )
+    }
 }
-
 
