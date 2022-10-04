@@ -4,7 +4,6 @@ import android.util.Log
 import com.joel.comics.model.network.MarvelApiService
 import com.joel.comics.model.network.MarvelRepo
 import com.joel.comics.model.network.MarvelRepositoryImpl
-import com.joel.comics.model.paginate.MarvelSource
 import com.joel.comics.utils.Constants.Companion.MARVEL_BASE_URL
 import dagger.Module
 import dagger.Provides

@@ -23,8 +23,8 @@ class MarvelSource (
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Result> {
         Log.d("LIST::","load characters")
       return try {
-          val nextPage = params.key ?: 1
-          val response = repository.getMarvelHeroes(limit = 20, offset = nextPage)
+          val nextPage = params.key ?: 0
+          val response = repository.getMarvelHeroes(limit = 1, offset = nextPage)
           LoadResult.Page(
               data =  response.data.results,
               prevKey =  if (nextPage == 1) null else nextPage - 1,

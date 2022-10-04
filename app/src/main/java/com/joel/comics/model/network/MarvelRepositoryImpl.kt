@@ -12,7 +12,7 @@ class MarvelRepositoryImpl @Inject constructor(
 
     override suspend fun getMarvelHeroes(limit: Int, offset: Int): Character {
         delay(3000L)
-        return apiService.getMarvelHeroes(limit = limit, offset = offset)
+        return apiService.getMarvelHeroes( offset = offset, limit = limit)
     }
 
 
