@@ -24,7 +24,7 @@ class MarvelSource (
         Log.d("LIST::","load characters")
       return try {
           val nextPage = params.key ?: 0
-          val response = repository.getMarvelHeroes(limit = 1, offset = nextPage)
+          val response = repository.getMarvelHeroes(limit = 100, offset = nextPage)
           LoadResult.Page(
               data =  response.data.results,
               prevKey =  if (nextPage == 1) null else nextPage - 1,

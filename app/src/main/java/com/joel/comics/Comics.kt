@@ -6,12 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.joel.comics.screens.NavGraphs
-import com.joel.comics.screens.OnBoardingScreen
+import com.joel.comics.screens.marvel.MarvelHome
+import com.joel.comics.screens.marvel.NavGraphs
 import com.joel.comics.ui.theme.ComicsTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint

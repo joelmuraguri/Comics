@@ -23,6 +23,7 @@ class Constants {
 
         const val MARVEL_BASE_URL = "https://gateway.marvel.com/v1/public/"
         const val CHARACTER_ENDPOINT = "characters"
+        const val CHARACTER_ID_ENDPOINT = "characters/{characterId}"
 
         const val PAGE_SIZE = 50
 

@@ -29,15 +29,17 @@ import com.joel.comics.model.paginate.ErrorAction
 import com.joel.comics.model.paginate.ItemLoading
 import com.joel.comics.viewmodel.MarvelHomeViewModel
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 
-@Destination
+@Destination(start = true)
 @Composable
 fun MarvelHome(
     viewModel: MarvelHomeViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator
 ){
 
 
@@ -98,7 +100,7 @@ fun MarvelHome(
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
-            CharacterList(viewModel)
+            CharacterList(viewModel, navigator)
         }
     }
 }
@@ -106,6 +108,7 @@ fun MarvelHome(
 @Composable
 fun CharacterList(
     viewModel: MarvelHomeViewModel,
+    navigator: DestinationsNavigator
     ) {
 
     val characterList = viewModel.characters.collectAsLazyPagingItems()
@@ -122,7 +125,7 @@ fun CharacterList(
     ){
         items(characterList){ character ->
             character?.let {
-                CharacterItem(character = character)
+                CharacterItem(character = character, navigator)
             }
         }
         characterList.apply {
@@ -135,7 +138,7 @@ fun CharacterList(
                             CircularProgressIndicator(
                                 modifier = Modifier
                                     .fillParentMaxSize()
-                                    .scale(0.5f)
+                                    .scale(0.4f)
                             )
                         }
                     }

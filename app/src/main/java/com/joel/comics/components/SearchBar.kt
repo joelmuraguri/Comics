@@ -4,8 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -28,18 +32,27 @@ fun SearchBar(
     }
 
 
-    BasicTextField(
+        OutlinedTextField(
         value = value,
         onValueChange = {
             value = it
         },
         modifier = Modifier
-            .shadow(5.dp, CircleShape)
-            .background(Color.White, CircleShape)
-            .padding(horizontal = 20.dp, vertical = 12.dp)
             .fillMaxWidth(),
         singleLine = true,
-        maxLines = 1
+        maxLines = 1,
+        placeholder = {
+            Text(
+                text = "Search for a character",
+                color = Color.LightGray
+            )
+        },
+            shape = RoundedCornerShape(20.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                cursorColor = Color.Black,
+                backgroundColor = Color.White,
+            )
+
     )
 
     if (isHintDisplayed){

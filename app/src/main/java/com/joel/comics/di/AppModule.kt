@@ -22,6 +22,7 @@ object AppModule {
     @Singleton
     fun provideMarvelRepository(apiService: MarvelApiService): MarvelRepo = MarvelRepositoryImpl(apiService)
 
+
     @Provides
     @Singleton
     fun provideMarvelRetrofit() : MarvelApiService {

@@ -1,9 +1,7 @@
 package com.joel.comics.model.network
 
 import com.joel.comics.model.marvelmodel.marvdata.marvresponse.character.Character
-import dagger.hilt.android.scopes.ActivityScoped
-import javax.inject.Singleton
-
+import com.joel.comics.model.marvelmodel.marvdata.marvresponse.character.ResultX
 
 interface MarvelRepo {
 
@@ -11,4 +9,6 @@ interface MarvelRepo {
         limit : Int,
         offset : Int
     ) : Character
+
+    suspend fun getMarvelCharacter( characterId : Int) : Resource<ResultX>
 }

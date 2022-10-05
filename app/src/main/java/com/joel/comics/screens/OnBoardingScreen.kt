@@ -11,11 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.joel.comics.R
-import com.joel.comics.screens.destinations.MarvelHomeDestination
-import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@Destination(start = true)
+
 @Composable
 fun OnBoardingScreen(
     navigator: DestinationsNavigator
@@ -34,7 +32,7 @@ fun OnBoardingScreen(
                 elevation = 5.dp,
                 modifier = Modifier
                     .clickable {
-                               navigator.navigate(MarvelHomeDestination())
+
                     },
                 shape = RoundedCornerShape(20.dp)
             ) {

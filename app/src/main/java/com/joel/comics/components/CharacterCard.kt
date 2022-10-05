@@ -1,5 +1,6 @@
 package com.joel.comics.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
@@ -12,14 +13,23 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
+import com.joel.comics.screens.marvel.destinations.DetailsScreenDestination
 import com.joel.comics.utils.getImageLink
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
-fun CharacterItem(character: com.joel.comics.model.marvelmodel.marvdata.marvresponse.character.Result){
+fun CharacterItem(
+    character: com.joel.comics.model.marvelmodel.marvdata.marvresponse.character.Result,
+    navigator: DestinationsNavigator
+){
     Card(
         elevation = 5.dp,
         modifier = Modifier
             .padding(12.dp)
+            .clickable {
+                navigator.navigate(DetailsScreenDestination)
+
+            }
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
