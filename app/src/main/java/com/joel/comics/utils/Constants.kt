@@ -1,12 +1,22 @@
 package com.joel.comics.utils
 
-import com.joel.comics.model.marvelmodel.marvdata.marvresponse.character.Thumbnail
+import com.joel.comics.domain.model.characters.allcharacters.CharacterThumbnail
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.sql.Timestamp
+import  com.joel.comics.domain.model.comics.allcomics.ComicThumbnail
+import com.joel.comics.domain.model.series.allseries.SeriesThumbnail
 
 
-fun getImageLink(thumbnail: Thumbnail):String{
+fun getComicImageLink(thumbnail: ComicThumbnail):String{
+    return thumbnail.path+ "." +thumbnail.extension
+}
+
+fun getCharacterImageLink(thumbnail: CharacterThumbnail):String{
+    return thumbnail.path+ "." +thumbnail.extension
+}
+
+fun getSeriesImageLink(thumbnail: SeriesThumbnail):String{
     return thumbnail.path+ "." +thumbnail.extension
 }
 
