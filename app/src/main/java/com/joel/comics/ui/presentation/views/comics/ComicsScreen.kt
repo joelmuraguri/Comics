@@ -71,6 +71,7 @@ fun AllComicsItems(
                         ) {
                             CircularProgressIndicator(
                                 modifier = Modifier
+                                    .fillMaxWidth()
                                     .fillMaxSize()
                                     .scale(0.5f)
                                     .align(Alignment.Center),

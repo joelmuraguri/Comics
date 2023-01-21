@@ -2,6 +2,7 @@ package com.joel.comics.ui.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -27,7 +28,8 @@ fun AllComicsCard(
             .padding(12.dp)
             .clickable {
 
-            }
+            },
+        shape = RoundedCornerShape(20.dp)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -38,7 +40,6 @@ fun AllComicsCard(
                 model = getComicImageLink(comics.thumbnail),
                 contentDescription = comics.title,
                 modifier = Modifier
-                    .size(300.dp)
 
             ) {
                 val state = painter.state
