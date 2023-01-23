@@ -10,37 +10,44 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.joel.comics.domain.model.comics.allcomics.AllComicsResult
+import com.joel.comics.ui.presentation.views.destinations.ComicsDetailsScreenDestination
 import com.joel.comics.utils.getComicImageLink
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 fun AllComicsCard(
-    comics : AllComicsResult
+    comics : AllComicsResult?,
+    navigator: DestinationsNavigator
 ){
 
-    Card(
-        elevation = 5.dp,
-        modifier = Modifier
-            .padding(12.dp)
-            .clickable {
-
-            },
-        shape = RoundedCornerShape(20.dp)
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(8.dp)
     ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(8.dp)
+        Card(
+            elevation = 5.dp,
+            modifier = Modifier
+                .padding(12.dp)
+                .clickable {
+                           navigator.navigate(ComicsDetailsScreenDestination(comics?.id!!))
+
+                },
+            shape = RoundedCornerShape(20.dp)
         ) {
             SubcomposeAsyncImage(
-                model = getComicImageLink(comics.thumbnail),
+                model = getComicImageLink(comics?.thumbnail!!),
                 contentDescription = comics.title,
                 modifier = Modifier
-
+                    .size(200.dp)
+                    .fillMaxSize(),
+                contentScale = ContentScale.Crop
             ) {
                 val state = painter.state
                 if(state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error){
@@ -54,7 +61,7 @@ fun AllComicsCard(
                 }
             }
             Spacer(modifier = Modifier.height(12.dp))
-            Text(text = comics.title)
         }
+        Text(text = comics?.title!!)
     }
 }

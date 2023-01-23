@@ -5,6 +5,7 @@ import java.math.BigInteger
 import java.security.MessageDigest
 import java.sql.Timestamp
 import  com.joel.comics.domain.model.comics.allcomics.ComicThumbnail
+import com.joel.comics.domain.model.comics.comicharacters.ComicCharactersThumbnail
 import com.joel.comics.domain.model.series.allseries.SeriesThumbnail
 
 
@@ -17,6 +18,10 @@ fun getCharacterImageLink(thumbnail: CharacterThumbnail):String{
 }
 
 fun getSeriesImageLink(thumbnail: SeriesThumbnail):String{
+    return thumbnail.path+ "." +thumbnail.extension
+}
+
+fun getComicCharacterImageLink(thumbnail: ComicCharactersThumbnail):String{
     return thumbnail.path+ "." +thumbnail.extension
 }
 

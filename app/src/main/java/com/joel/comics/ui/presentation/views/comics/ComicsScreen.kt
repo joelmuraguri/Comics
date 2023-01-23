@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -23,12 +22,14 @@ import com.joel.comics.domain.model.comics.allcomics.AllComicsResult
 import com.joel.comics.ui.presentation.components.AllComicsCard
 import com.joel.comics.viewmodel.ComicsViewModel
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.Flow
 
 @Destination
 @Composable
 fun ComicsScreen(
-    viewModel : ComicsViewModel = hiltViewModel()
+    viewModel : ComicsViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator
 ){
 
     Box(
@@ -37,7 +38,7 @@ fun ComicsScreen(
         contentAlignment = Alignment.Center,
 
         ) {
-        AllComicsItems(popularMovies = viewModel.allComics)
+        AllComicsItems(popularMovies = viewModel.allComics, navigator = navigator)
     }
 
 }
@@ -46,7 +47,8 @@ fun ComicsScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AllComicsItems(
-    popularMovies : Flow<PagingData<AllComicsResult>>
+    popularMovies : Flow<PagingData<AllComicsResult>>,
+    navigator: DestinationsNavigator
 ){
     val lazyMovieItems = popularMovies.collectAsLazyPagingItems()
 
@@ -57,6 +59,7 @@ fun AllComicsItems(
             lazyMovieItems[index]?.let { comics ->
                 AllComicsCard(
                     comics = comics,
+                    navigator = navigator
                 )
             }
         }
@@ -71,14 +74,14 @@ fun AllComicsItems(
                         ) {
                             CircularProgressIndicator(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxSize()
+                                    .fillParentMaxSize()
                                     .scale(0.5f)
-                                    .align(Alignment.Center),
+                                    .fillParentMaxWidth()
+                                    .fillParentMaxHeight(),
                                 color = Color.Yellow
                             )
-                        }
 
+                        }
                     }
                 }
                 loadState.append is LoadState.Loading -> {
@@ -114,10 +117,10 @@ fun AllComicsItems(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun AllComicsScreenPreview(){
-
-    ComicsScreen()
-
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun AllComicsScreenPreview(){
+//
+//    ComicsScreen()
+//
+//}

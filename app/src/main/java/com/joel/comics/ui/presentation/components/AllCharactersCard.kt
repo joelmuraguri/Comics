@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
@@ -22,38 +23,41 @@ fun AllCharactersCard(
     character : AllCharactersResult
 ){
 
-    Card(
-        elevation = 5.dp,
-        modifier = Modifier
-            .padding(12.dp)
-            .clickable {
-
-            },
-        shape = RoundedCornerShape(20.dp)
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(8.dp)
     ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(8.dp)
+        Card(
+            elevation = 5.dp,
+            modifier = Modifier
+                .padding(12.dp)
+                .clickable {
+
+                },
+            shape = RoundedCornerShape(20.dp)
         ) {
-            SubcomposeAsyncImage(
-                model = getCharacterImageLink(character.thumbnail),
-                contentDescription = character.name,
-                modifier = Modifier
-            ) {
-                val state = painter.state
-                if(state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error){
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .scale(0.5f)
-                    )
+                SubcomposeAsyncImage(
+                    model = getCharacterImageLink(character.thumbnail),
+                    contentDescription = character.name,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .size(200.dp),
+                    contentScale = ContentScale.Crop
+                ) {
+                    val state = painter.state
+                    if(state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error){
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .scale(0.5f)
+                        )
+                    }
+                    else{
+                        SubcomposeAsyncImageContent()
+                    }
                 }
-                else{
-                    SubcomposeAsyncImageContent()
-                }
-            }
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(text = character.name)
+                Spacer(modifier = Modifier.height(12.dp))
         }
+        Text(text = character.name)
     }
 }
