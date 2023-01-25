@@ -5,6 +5,7 @@ import java.math.BigInteger
 import java.security.MessageDigest
 import java.sql.Timestamp
 import  com.joel.comics.domain.model.comics.allcomics.ComicThumbnail
+import com.joel.comics.domain.model.comics.comicdetails.ComicDetailsThumbnail
 import com.joel.comics.domain.model.comics.comicharacters.ComicCharactersThumbnail
 import com.joel.comics.domain.model.series.allseries.SeriesThumbnail
 
@@ -12,6 +13,11 @@ import com.joel.comics.domain.model.series.allseries.SeriesThumbnail
 fun getComicImageLink(thumbnail: ComicThumbnail):String{
     return thumbnail.path+ "." +thumbnail.extension
 }
+
+fun getComicDetailsImageLink(thumbnail: ComicDetailsThumbnail):String{
+    return thumbnail.path+ "." +thumbnail.extension
+}
+
 
 fun getCharacterImageLink(thumbnail: CharacterThumbnail):String{
     return thumbnail.path+ "." +thumbnail.extension
@@ -21,9 +27,9 @@ fun getSeriesImageLink(thumbnail: SeriesThumbnail):String{
     return thumbnail.path+ "." +thumbnail.extension
 }
 
-fun getComicCharacterImageLink(thumbnail: ComicCharactersThumbnail):String{
-    return thumbnail.path+ "." +thumbnail.extension
-}
+//fun getComicDetailsImageLink(thumbnail: ComicCharactersThumbnail):String{
+//    return thumbnail.path+ "." +thumbnail.extension
+//}
 
 const val SPLASH_SCREEN_DURATION = 2000L
 

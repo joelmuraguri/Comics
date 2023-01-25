@@ -1,8 +1,5 @@
 package com.joel.comics.di
 
-import com.joel.comics.domain.network.characters.CharacterService
-import com.joel.comics.domain.network.characters.CharactersRepository
-import com.joel.comics.domain.network.comics.ComicsService
 import com.joel.comics.domain.network.series.SeriesRepository
 import com.joel.comics.domain.network.series.SeriesService
 import com.joel.comics.utils.Constants

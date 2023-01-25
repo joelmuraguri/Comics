@@ -1,6 +1,6 @@
 package com.joel.comics.domain.model.comics.comicdetails
 
-data class Result(
+data class ComicDetailsResult(
     val characters: Characters,
     val collectedIssues: List<Any>,
     val collections: List<Any>,
@@ -24,7 +24,7 @@ data class Result(
     val series: Series,
     val stories: Stories,
     val textObjects: List<Any>,
-    val thumbnail: Thumbnail,
+    val thumbnail: ComicDetailsThumbnail,
     val title: String,
     val upc: String,
     val urls: List<Url>,

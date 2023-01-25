@@ -2,6 +2,8 @@ package com.joel.comics.domain.network.comics
 
 import com.joel.comics.domain.model.comics.allcomics.AllComics
 import com.joel.comics.domain.model.comics.allcomics.AllComicsResult
+import com.joel.comics.domain.model.comics.comicdetails.ComicDetails
+import com.joel.comics.domain.model.comics.comicdetails.ComicDetailsResult
 import com.joel.comics.domain.model.comics.comicharacters.ComicCharacters
 import com.joel.comics.utils.Resource
 import timber.log.Timber
@@ -30,7 +32,7 @@ class ComicsRepository @Inject constructor(
 
     }
 
-    suspend fun getComicDetails(comicId : Int) : Resource<AllComicsResult>{
+    suspend fun getComicDetails(comicId : Int) : Resource<ComicDetailsResult>{
         val response = try {
             api.getComicById(comicId)
         }

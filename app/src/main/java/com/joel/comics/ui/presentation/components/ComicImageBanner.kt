@@ -1,5 +1,6 @@
 package com.joel.comics.ui.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -28,6 +29,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.joel.comics.utils.getComicImageLink
 import com.joel.comics.viewmodel.ComicsViewModel
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import timber.log.Timber
 import kotlin.math.max
 import kotlin.math.min
 
@@ -37,11 +39,13 @@ fun ComicImageBanner(
     scrollState : LazyListState,
     comicImageURL : String,
     comicName : String
-){
+) {
+
+    Log.d("DD", "TTO")
 
     val context = LocalContext.current
 
-    val imageHeight = 420.dp -50.dp
+    val imageHeight = 420.dp - 50.dp
 
     val maxOffset = with(LocalDensity.current) {
         imageHeight.roundToPx()
@@ -72,15 +76,14 @@ fun ComicImageBanner(
                     contentScale = ContentScale.Crop,
 
 
-                ) {
+                    ) {
                     val state = painter.state
-                    if(state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error){
+                    if (state is AsyncImagePainter.State.Loading || state is AsyncImagePainter.State.Error) {
                         CircularProgressIndicator(
                             modifier = Modifier
                                 .scale(0.5f)
                         )
-                    }
-                    else{
+                    } else {
                         SubcomposeAsyncImageContent()
                     }
                 }

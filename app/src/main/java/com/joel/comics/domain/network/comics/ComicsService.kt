@@ -2,6 +2,8 @@ package com.joel.comics.domain.network.comics
 
 import com.joel.comics.domain.model.comics.allcomics.AllComics
 import com.joel.comics.domain.model.comics.allcomics.AllComicsResult
+import com.joel.comics.domain.model.comics.comicdetails.ComicDetails
+import com.joel.comics.domain.model.comics.comicdetails.ComicDetailsResult
 import com.joel.comics.domain.model.comics.comicharacters.ComicCharacters
 import com.joel.comics.utils.Constants
 import retrofit2.http.GET
@@ -26,7 +28,7 @@ interface ComicsService {
         @Query("apikey") apikey : String = Constants.MARVEL_API_KEY,
         @Query("ts") ts : String = Constants.ts,
         @Query("hash") hash: String = Constants.hash(),
-    ) : AllComicsResult
+    ) : ComicDetailsResult
 
     @GET("comics/{comicId}/characters")
     suspend fun getCharacterByComic(

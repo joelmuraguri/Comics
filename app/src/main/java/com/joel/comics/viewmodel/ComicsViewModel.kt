@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.joel.comics.domain.model.comics.allcomics.AllComicsResult
+import com.joel.comics.domain.model.comics.comicdetails.ComicDetails
+import com.joel.comics.domain.model.comics.comicdetails.ComicDetailsResult
 import com.joel.comics.domain.model.comics.comicharacters.ComicCharacters
 import com.joel.comics.domain.network.comics.ComicsRepository
 import com.joel.comics.domain.paginate.comics.AllComicsSource
@@ -23,7 +25,7 @@ class ComicsViewModel @Inject constructor(
         AllComicsSource(repository)
     }.flow.cachedIn(viewModelScope)
 
-    suspend fun getComicDetails(comicId : Int) : Resource<AllComicsResult>{
+    suspend fun getComicDetails(comicId : Int) : Resource<ComicDetailsResult>{
         val details = repository.getComicDetails(comicId)
         Timber.d(details.data.toString())
         return details
