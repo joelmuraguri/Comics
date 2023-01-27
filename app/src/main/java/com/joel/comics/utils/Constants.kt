@@ -6,12 +6,11 @@ import java.security.MessageDigest
 import java.sql.Timestamp
 import  com.joel.comics.domain.model.comics.allcomics.ComicThumbnail
 import com.joel.comics.domain.model.comics.comicdetails.ComicDetailsThumbnail
-import com.joel.comics.domain.model.comics.comicharacters.ComicCharactersThumbnail
 import com.joel.comics.domain.model.series.allseries.SeriesThumbnail
 
 
-fun getComicImageLink(thumbnail: ComicThumbnail):String{
-    return thumbnail.path+ "." +thumbnail.extension
+fun getComicImageLink(thumbnail: ComicThumbnail?):String{
+    return thumbnail?.path+ "." +thumbnail?.extension
 }
 
 fun getComicDetailsImageLink(thumbnail: ComicDetailsThumbnail):String{

@@ -14,7 +14,6 @@ import com.joel.comics.utils.getComicDetailsImageLink
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import timber.log.Timber
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ComicCharacterScreen(
     characters : ComicCharacters,

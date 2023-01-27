@@ -24,7 +24,7 @@ class ComicsRepository @Inject constructor(
             api.getCharacterByComic(comicId)
         } catch (e : Exception){
             Timber.d(e.message)
-            return  Resource.Errors("Unknown Error Occurred")
+            return  Resource.Error("Unknown Error Occurred")
         }
 
         Timber.d("Comics Details $response")
@@ -32,13 +32,13 @@ class ComicsRepository @Inject constructor(
 
     }
 
-    suspend fun getComicDetails(comicId : Int) : Resource<ComicDetailsResult>{
+    suspend fun getComicDetails(comicId : Int) : Resource<AllComicsResult>{
         val response = try {
             api.getComicById(comicId)
         }
         catch (e : Exception){
             Timber.d(e.message)
-            return Resource.Errors(message = "Unknown Error Occurred")
+            return Resource.Error(message = "Unknown Error Occurred")
         }
 
         Timber.d("Comics Details $response")

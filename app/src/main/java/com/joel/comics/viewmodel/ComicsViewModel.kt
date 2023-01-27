@@ -25,7 +25,7 @@ class ComicsViewModel @Inject constructor(
         AllComicsSource(repository)
     }.flow.cachedIn(viewModelScope)
 
-    suspend fun getComicDetails(comicId : Int) : Resource<ComicDetailsResult>{
+    suspend fun getComicDetails(comicId : Int) : Resource<AllComicsResult>{
         val details = repository.getComicDetails(comicId)
         Timber.d(details.data.toString())
         return details

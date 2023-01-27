@@ -28,7 +28,7 @@ interface ComicsService {
         @Query("apikey") apikey : String = Constants.MARVEL_API_KEY,
         @Query("ts") ts : String = Constants.ts,
         @Query("hash") hash: String = Constants.hash(),
-    ) : ComicDetailsResult
+    ) : AllComicsResult
 
     @GET("comics/{comicId}/characters")
     suspend fun getCharacterByComic(
